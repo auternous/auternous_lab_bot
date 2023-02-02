@@ -1,6 +1,6 @@
 #base_settings
-TOKEN = 'TOKEN'
-admin = 000000
+TOKEN = '5748458460:AAH6PRWiZsPJdnCYiGhEenIqNOSyLKu4Alk'
+admin = 370028521
 cover = 'me.jpg'
 
 #text

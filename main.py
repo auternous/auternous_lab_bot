@@ -16,10 +16,7 @@ def send_welcome(message):
     bot.send_photo(chat_id=message.chat.id, photo=photo_me,
                    caption=f"Привет, рад тебя видеть {message_sender}\nНажимай на 🤍 и давай познакомимся",
                    reply_markup=markup_1)
-    messageID = message.message_id
 
-
-    return messageID
 
 
 @bot.callback_query_handler(func=lambda call: call.data == "go")
@@ -49,7 +46,7 @@ def send_poslanie(message: Message):
     print(message.message_id - 1)
     bot.send_message(admin_id, f"Новое сообщение от @{message_sender}!\n\n{message_worked}")
     bot.delete_message(message.chat.id, message.message_id)
-    bot.edit_message_caption(chat_id=message.chat.id, message_id=messageID, caption=config.thank_you,
+    bot.edit_message_caption(chat_id=message.chat.id, caption=config.thank_you,
                              reply_markup=markup)
 
 

@@ -1,6 +1,11 @@
+import configparser
+
+settings = configparser.ConfigParser()
+settings.read('settings.ini')
+
 #base_settings
-TOKEN = '5748458460:AAH6PRWiZsPJdnCYiGhEenIqNOSyLKu4Alk'
-admin = 370028521
+TOKEN = settings['settings']['TOKEN']
+admin = settings['settings']['admin']
 cover = 'me.jpg'
 
 #text

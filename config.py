@@ -1,6 +1,6 @@
 #base_settings
 TOKEN = 'TOKEN'
-admin = your_id
+admin = 000000
 cover = 'me.jpg'
 
 #text

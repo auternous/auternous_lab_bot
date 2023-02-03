@@ -5,7 +5,7 @@ settings.read('settings.ini')
 
 #base_settings
 TOKEN = settings['settings']['TOKEN']
-admin = settings['settings']['admin']
+admin = 370028521 #settings['settings']['admin']
 cover = 'me.jpg'
 
 #text

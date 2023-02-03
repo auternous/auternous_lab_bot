@@ -30,7 +30,9 @@ def handler_admin(message):
     if chat_id == config.admin:
         bot.send_message(chat_id, 'Вы перешли в меню админа', reply_markup=keyboards.admin_menu)
 
-@bot.callback_query_handler(func=lambda call: call.data =='admin_sending_messages' or call.data =='exit_admin_menu' or call.data =='admin_info')
+
+@bot.callback_query_handler(func=lambda call: call.data == 'admin_sending_messages' or call.data == 'exit_admin_menu'
+                                              or call.data == 'admin_info' or call.data == 'edit_text')
 def but0_pressed(call: types.CallbackQuery):
     if call.data == 'admin_sending_messages':
         msg = bot.send_message(call.message.chat.id,
@@ -39,8 +41,7 @@ def but0_pressed(call: types.CallbackQuery):
 
     if call.data == 'exit_admin_menu':
         bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
-        bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id-1)
-
+        bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id - 1)
 
     if call.data == 'admin_info':
         bot.edit_message_text(
@@ -49,6 +50,10 @@ def but0_pressed(call: types.CallbackQuery):
             text=functions.admin_info(),
             reply_markup=keyboards.admin_menu
         )
+    if call.data == 'edit_text':
+        msg = bot.send_message(call.message.chat.id,
+                               text='Введите новый текст БИО')
+        bot.register_next_step_handler(msg, admin_edit_bio)
 
 
 @bot.callback_query_handler(func=lambda call: call.data == "go")
@@ -61,7 +66,8 @@ def but1_pressed(call: types.CallbackQuery):
 
 @bot.callback_query_handler(func=lambda call: call.data == "WhoAmI")
 def but2_pressed(call: types.CallbackQuery):
-    bot.edit_message_caption(chat_id=call.message.chat.id, message_id=call.message.message_id, caption=config.bio,
+    bot.edit_message_caption(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                             caption=functions.get_bio(),
                              reply_markup=keyboards.go_back)
 
 
@@ -73,13 +79,13 @@ def but3_pressed(call: types.CallbackQuery):
 
 @bot.message_handler()
 def send_poslanie(message: Message):
-    if message.chat.id !=admin_id:
+    if message.chat.id != admin_id:
         message_worked = message.text
         message_sender = message.from_user.username
         bot.send_message(admin_id, f"Новое сообщение от @{message_sender}!\n\n{message_worked}",
                          reply_markup=keyboards.delete)
         bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
-        bot.send_message(chat_id=message.chat.id, text = 'Cпасибо за вопрос. Напишу сразу же, как освобожусь',
+        bot.send_message(chat_id=message.chat.id, text='Cпасибо за вопрос. Напишу сразу же, как освобожусь',
                          reply_markup=keyboards.delete)
 
     elif message.chat.id == admin_id:
@@ -106,12 +112,13 @@ def admin_sending_messages(message):
                            text='Отправьте "ПОДТВЕРДИТЬ" для подтверждения')
     bot.register_next_step_handler(msg, admin_sending_messages_2)
 
+
 def admin_sending_messages_2(message):
     conn = sqlite3.connect('auternous_bot.sqlite')
     cursor = conn.cursor()
     dict = admin_sending_messages_dict[message.chat.id]
     if message.text == 'ПОДТВЕРДИТЬ':
-        bot.delete_message(message.chat.id, message.message_id-1)
+        bot.delete_message(message.chat.id, message.message_id - 1)
         bot.delete_message(message.chat.id, message.message_id)
         cursor.execute(f'SELECT * FROM users')
         row = cursor.fetchall()
@@ -130,7 +137,18 @@ def admin_sending_messages_2(message):
         bot.delete_message(message.chat.id, message.message_id - 1)
 
 
+def admin_edit_bio(message):
+    new_bio = message.text
+    conn = sqlite3.connect('auternous_bot.sqlite')
+    cursor = conn.cursor()
 
+    cursor.execute(f'UPDATE messages SET bio = ? where rowid = 1', [new_bio])
+
+    conn.commit()
+    conn.close()
+    bot.send_message(message.chat.id, text='Биография отредактирована', reply_markup=keyboards.delete)
+    bot.delete_message(message.chat.id, message.message_id)
+    bot.delete_message(message.chat.id, message.message_id - 1)
 
 if __name__ == '__main__':
     bot.infinity_polling(skip_pending=True)

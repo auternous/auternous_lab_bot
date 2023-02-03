@@ -21,6 +21,7 @@ delete.add(InlineKeyboardButton("❌", callback_data="close"))
 admin_menu = types.InlineKeyboardMarkup(row_width=2)
 
 admin_menu.add(types.InlineKeyboardButton(text='Рассылка', callback_data='admin_sending_messages'))
+admin_menu.add(types.InlineKeyboardButton(text='Изменить текст', callback_data='edit_text'))
 admin_menu.add(
     types.InlineKeyboardButton(text='Информаци', callback_data='admin_info'),
     types.InlineKeyboardButton(text='Выйти', callback_data='exit_admin_menu'))

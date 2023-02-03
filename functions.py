@@ -1,6 +1,9 @@
 import sqlite3
 import datetime
 
+import config
+
+
 class Admin_sending_messages:
     def __init__(self, user_id):
         self.user_id = user_id
@@ -13,6 +16,15 @@ def first_join(user_id, name):
     if len(row) == 0:
         cursor.execute(
             f'INSERT INTO users VALUES ("{user_id}", "{name}", "{datetime.datetime.now()}")')
+        conn.commit()
+
+    conn = sqlite3.connect('auternous_bot.sqlite')
+    cursor = conn.cursor()
+    row = cursor.execute(f'SELECT * FROM messages WHERE bio = "{config.bio}"').fetchall()
+
+    if len(row) == 0:
+        cursor.execute(
+            f'INSERT INTO messages VALUES ("{config.bio}", "{config.status}")')
         conn.commit()
 
 def admin_info():
@@ -41,3 +53,35 @@ def admin_info():
           f'❕ За час - {amount_user_hour}'
 
     return msg
+
+'''def edit_bio():
+    conn = sqlite3.connect('auternous_bot.sqlite')
+    cursor = conn.cursor()
+    row = cursor.execute(f'SELECT * FROM messages WHERE bio = "{config.bio}"').fetchall()
+
+    if len(row) == 0:
+        cursor.execute(
+            f'INSERT INTO messages VALUES ("{config.bio}", "{config.status}", "{datetime.datetime.now()}")')
+        conn.commit()'''
+
+def get_bio():
+    conn = sqlite3.connect('auternous_bot.sqlite')
+    cursor = conn.cursor()
+    row = cursor.execute(f'SELECT * FROM messages').fetchone()
+
+    result = cursor.fetchone()
+    if row:
+        return row[0]
+
+
+def get_status():
+    conn = sqlite3.connect('auternous_bot.sqlite')
+    cursor = conn.cursor()
+    row = cursor.execute(f'SELECT * FROM messages').fetchone()
+
+    result = cursor.fetchone()
+    if row:
+        return row[1]
+
+
+

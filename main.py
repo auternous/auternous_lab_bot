@@ -26,13 +26,13 @@ def send_welcome(message):
 @bot.message_handler(commands=['admin'])
 def handler_admin(message):
     chat_id = message.chat.id
-    print(chat_id)
     if chat_id == config.admin:
         bot.send_message(chat_id, 'Вы перешли в меню админа', reply_markup=keyboards.admin_menu)
 
 
 @bot.callback_query_handler(func=lambda call: call.data == 'admin_sending_messages' or call.data == 'exit_admin_menu'
-                                              or call.data == 'admin_info' or call.data == 'edit_text')
+                                              or call.data == 'admin_info' or call.data == 'edit_text'
+                                              or call.data == 'green' or call.data == 'red')
 def but0_pressed(call: types.CallbackQuery):
     if call.data == 'admin_sending_messages':
         msg = bot.send_message(call.message.chat.id,
@@ -55,12 +55,32 @@ def but0_pressed(call: types.CallbackQuery):
                                text='Введите новый текст БИО')
         bot.register_next_step_handler(msg, admin_edit_bio)
 
+    if call.data == 'green':
+        conn = sqlite3.connect('auternous_bot.sqlite')
+        cursor = conn.cursor()
+
+        cursor.execute(f'UPDATE messages SET status = ? where rowid = 1', ['🟢'])
+
+        conn.commit()
+        conn.close()
+
+    if call.data == 'red':
+        conn = sqlite3.connect('auternous_bot.sqlite')
+        cursor = conn.cursor()
+
+        cursor.execute(f'UPDATE messages SET status = ? where rowid = 1', ['🔴'])
+
+        conn.commit()
+        conn.close()
+
+
+
 
 @bot.callback_query_handler(func=lambda call: call.data == "go")
 def but1_pressed(call: types.CallbackQuery):
     # if call.message.chat.id == config.thank_you:
 
-    bot.edit_message_caption(chat_id=call.message.chat.id, message_id=call.message.message_id, caption=config.start,
+    bot.edit_message_caption(chat_id=call.message.chat.id, message_id=call.message.message_id, caption=f'Это бот-визитка Марка, тут можно узнать о его деятельности и задать пару вопросов\nБудь, как дома🏠\n{functions.get_status()} ',
                              reply_markup=keyboards.main_keys)
 
 
@@ -149,6 +169,7 @@ def admin_edit_bio(message):
     bot.send_message(message.chat.id, text='Биография отредактирована', reply_markup=keyboards.delete)
     bot.delete_message(message.chat.id, message.message_id)
     bot.delete_message(message.chat.id, message.message_id - 1)
+
 
 if __name__ == '__main__':
     bot.infinity_polling(skip_pending=True)

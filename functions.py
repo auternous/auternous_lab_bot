@@ -69,7 +69,7 @@ def get_bio():
     cursor = conn.cursor()
     row = cursor.execute(f'SELECT * FROM messages').fetchone()
 
-    result = cursor.fetchone()
+
     if row:
         return row[0]
 
@@ -79,9 +79,9 @@ def get_status():
     cursor = conn.cursor()
     row = cursor.execute(f'SELECT * FROM messages').fetchone()
 
-    result = cursor.fetchone()
     if row:
         return row[1]
 
+print(get_status())
 
 

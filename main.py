@@ -2,8 +2,10 @@
 import sqlite3
 import time
 
+import telebot
 from telebot import TeleBot, types
 import config
+from config import cover
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 from telebot.types import Message
 import keyboards
@@ -18,7 +20,7 @@ admin_sending_messages_dict = {}
 def send_welcome(message):
     message_sender = message.from_user.username
     functions.first_join(user_id=message.chat.id, name=message.from_user.username)
-    bot.send_photo(chat_id=message.chat.id, photo=open(config.cover, 'rb'),
+    bot.send_photo(chat_id=message.chat.id, photo=functions.get_img(),
                    caption=f"Привет, рад тебя видеть {message_sender}\nНажимай на 🤍 и давай познакомимся",
                    reply_markup=keyboards.first_step)
 
@@ -26,13 +28,13 @@ def send_welcome(message):
 @bot.message_handler(commands=['admin'])
 def handler_admin(message):
     chat_id = message.chat.id
-    if chat_id == config.admin:
+    if chat_id in config.admin:
         bot.send_message(chat_id, 'Вы перешли в меню админа', reply_markup=keyboards.admin_menu)
 
 
 @bot.callback_query_handler(func=lambda call: call.data == 'admin_sending_messages' or call.data == 'exit_admin_menu'
                                               or call.data == 'admin_info' or call.data == 'edit_text'
-                                              or call.data == 'green' or call.data == 'red')
+                                              or call.data == 'green' or call.data == 'red' or call.data == 'edit_img')
 def but0_pressed(call: types.CallbackQuery):
     if call.data == 'admin_sending_messages':
         msg = bot.send_message(call.message.chat.id,
@@ -55,11 +57,17 @@ def but0_pressed(call: types.CallbackQuery):
                                text='Введите новый текст БИО')
         bot.register_next_step_handler(msg, admin_edit_bio)
 
+    if call.data == 'edit_img':
+        msg = bot.send_message(call.message.chat.id,
+                               text='пришлите новое фото')
+        bot.register_next_step_handler(msg, admin_edit_img)
+
+
     if call.data == 'green':
         conn = sqlite3.connect('auternous_bot.sqlite')
         cursor = conn.cursor()
 
-        cursor.execute(f'UPDATE messages SET status = ? where rowid = 1', ['🟢'])
+        cursor.execute(f'UPDATE messages SET status = ? where rowid = 1', ['Я сейчас свободен 🟢'])
 
         conn.commit()
         conn.close()
@@ -68,7 +76,7 @@ def but0_pressed(call: types.CallbackQuery):
         conn = sqlite3.connect('auternous_bot.sqlite')
         cursor = conn.cursor()
 
-        cursor.execute(f'UPDATE messages SET status = ? where rowid = 1', ['🔴'])
+        cursor.execute(f'UPDATE messages SET status = ? where rowid = 1', ['Я сейчас занят 🔴'])
 
         conn.commit()
         conn.close()
@@ -80,26 +88,34 @@ def but0_pressed(call: types.CallbackQuery):
 def but1_pressed(call: types.CallbackQuery):
     # if call.message.chat.id == config.thank_you:
 
-    bot.edit_message_caption(chat_id=call.message.chat.id, message_id=call.message.message_id, caption=f'Это бот-визитка Марка, тут можно узнать о его деятельности и задать пару вопросов\nБудь, как дома🏠\n{functions.get_status()} ',
-                             reply_markup=keyboards.main_keys)
+
+    #bot.edit_message_caption(chat_id=call.message.chat.id, message_id=call.message.message_id, caption=config.start.format(functions.get_status()),
+                            # reply_markup=keyboards.main_keys)
+
+    bot.edit_message_media(media=telebot.types.InputMedia(type='photo', media=functions.get_img(), caption=config.start.format(functions.get_status())), chat_id=call.message.chat.id, message_id=call.message.message_id, reply_markup=keyboards.main_keys)
 
 
 @bot.callback_query_handler(func=lambda call: call.data == "WhoAmI")
 def but2_pressed(call: types.CallbackQuery):
-    bot.edit_message_caption(chat_id=call.message.chat.id, message_id=call.message.message_id,
-                             caption=functions.get_bio(),
-                             reply_markup=keyboards.go_back)
+    #bot.edit_message_caption(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                             #caption=functions.get_bio(),
+                             #reply_markup=keyboards.go_back)
 
+    bot.edit_message_media(chat_id=call.message.chat.id, message_id=call.message.message_id,media=telebot.types.InputMedia(type='photo', media=functions.get_img(),
+                                                          caption=functions.get_bio()), reply_markup=keyboards.go_back)
 
 @bot.callback_query_handler(func=lambda call: call.data == "Dialog")
 def but3_pressed(call: types.CallbackQuery):
-    bot.edit_message_caption(chat_id=call.message.chat.id, message_id=call.message.message_id,
-                             caption=config.go_to_dialog, reply_markup=keyboards.go_back)
+    #bot.edit_message_caption(chat_id=call.message.chat.id, message_id=call.message.message_id,
+                             #caption=config.go_to_dialog, reply_markup=keyboards.go_back)
+
+    bot.edit_message_media(chat_id=call.message.chat.id, message_id=call.message.message_id,media=telebot.types.InputMedia(type='photo', media=functions.get_img(),
+                                                          caption=config.go_to_dialog), reply_markup=keyboards.go_back)
 
 
 @bot.message_handler()
 def send_poslanie(message: Message):
-    if message.chat.id != admin_id:
+    if not (message.chat.id in admin_id):
         message_worked = message.text
         message_sender = message.from_user.username
         bot.send_message(admin_id, f"Новое сообщение от @{message_sender}!\n\n{message_worked}",
@@ -108,7 +124,7 @@ def send_poslanie(message: Message):
         bot.send_message(chat_id=message.chat.id, text='Cпасибо за вопрос. Напишу сразу же, как освобожусь',
                          reply_markup=keyboards.delete)
 
-    elif message.chat.id == admin_id:
+    elif message.chat.id in admin_id:
         bot.send_message(chat_id=message.chat.id, text='АДМИН, ты серьёзно?',
                          reply_markup=keyboards.delete)
         bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
@@ -167,6 +183,23 @@ def admin_edit_bio(message):
     conn.commit()
     conn.close()
     bot.send_message(message.chat.id, text='Биография отредактирована', reply_markup=keyboards.delete)
+    bot.delete_message(message.chat.id, message.message_id)
+    bot.delete_message(message.chat.id, message.message_id - 1)
+
+@bot.message_handler(content_types=["photo"])
+def admin_edit_img(message):
+    photo_id = message.photo[-1].file_id
+    # Достаём картинку
+    photo_file = bot.get_file(photo_id)  # <class 'telebot.types.File'>
+    photo_bytes = bot.download_file(photo_file.file_path)  # <class 'bytes'>
+    conn = sqlite3.connect('auternous_bot.sqlite')
+    cursor = conn.cursor()
+
+    cursor.execute(f'UPDATE messages SET img = ? where rowid = 1', [photo_bytes])
+
+    conn.commit()
+    conn.close()
+    bot.send_message(message.chat.id, text='Фото отредактировано', reply_markup=keyboards.delete)
     bot.delete_message(message.chat.id, message.message_id)
     bot.delete_message(message.chat.id, message.message_id - 1)
 

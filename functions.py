@@ -4,11 +4,14 @@ import datetime
 import config
 
 
+
+
 class Admin_sending_messages:
     def __init__(self, user_id):
         self.user_id = user_id
         self.text = None
 def first_join(user_id, name):
+    img = open('me.jpg', 'rb')
     conn = sqlite3.connect('auternous_bot.sqlite')
     cursor = conn.cursor()
     row = cursor.execute(f'SELECT * FROM users WHERE user_id = "{user_id}"').fetchall()
@@ -24,8 +27,10 @@ def first_join(user_id, name):
 
     if len(row) == 0:
         cursor.execute(
-            f'INSERT INTO messages VALUES ("{config.bio}", "{config.status}")')
+            f'INSERT INTO messages VALUES ("{config.bio}", "{config.status}", "{img}")')
         conn.commit()
+
+
 
 def admin_info():
     conn = sqlite3.connect('auternous_bot.sqlite')
@@ -54,15 +59,6 @@ def admin_info():
 
     return msg
 
-'''def edit_bio():
-    conn = sqlite3.connect('auternous_bot.sqlite')
-    cursor = conn.cursor()
-    row = cursor.execute(f'SELECT * FROM messages WHERE bio = "{config.bio}"').fetchall()
-
-    if len(row) == 0:
-        cursor.execute(
-            f'INSERT INTO messages VALUES ("{config.bio}", "{config.status}", "{datetime.datetime.now()}")')
-        conn.commit()'''
 
 def get_bio():
     conn = sqlite3.connect('auternous_bot.sqlite')
@@ -82,6 +78,15 @@ def get_status():
     if row:
         return row[1]
 
-print(get_status())
+def get_img():
+    conn = sqlite3.connect('auternous_bot.sqlite')
+    cursor = conn.cursor()
+    row = cursor.execute(f'SELECT * FROM messages').fetchone()
+
+
+    if row:
+        return row[2]
+
+
 
 

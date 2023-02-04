@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="107a5f19-0573-46e4-b350-addcec737919" name="Changes" comment="now you can change text">
+    <list default="true" id="107a5f19-0573-46e4-b350-addcec737919" name="Changes" comment="now you can change status">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auternous_bot.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/auternous_bot.sqlite" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
@@ -165,13 +165,21 @@
       <option name="project" value="LOCAL" />
       <updated>1675467675772</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="now you can change status">
+      <created>1675469182851</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1675469182851</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="ooops" />
     <MESSAGE value="000000" />
     <MESSAGE value="now you can change text" />
-    <option name="LAST_COMMIT_MESSAGE" value="now you can change text" />
+    <MESSAGE value="now you can change status" />
+    <option name="LAST_COMMIT_MESSAGE" value="now you can change status" />
   </component>
 </project>

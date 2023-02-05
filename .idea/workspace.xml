@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="107a5f19-0573-46e4-b350-addcec737919" name="Changes" comment="now you can change status">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auternous_bot.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/auternous_bot.sqlite" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/functions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/keyboards.py" beforeDir="false" afterPath="$PROJECT_DIR$/keyboards.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-    </list>
+    <list default="true" id="107a5f19-0573-46e4-b350-addcec737919" name="Changes" comment="now you can change photo" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -172,7 +165,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675469182851</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="now you can change photo">
+      <created>1675507580147</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1675507580147</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -180,6 +180,7 @@
     <MESSAGE value="000000" />
     <MESSAGE value="now you can change text" />
     <MESSAGE value="now you can change status" />
-    <option name="LAST_COMMIT_MESSAGE" value="now you can change status" />
+    <MESSAGE value="now you can change photo" />
+    <option name="LAST_COMMIT_MESSAGE" value="now you can change photo" />
   </component>
 </project>

@@ -34,7 +34,8 @@ def handler_admin(message):
 
 @bot.callback_query_handler(func=lambda call: call.data == 'admin_sending_messages' or call.data == 'exit_admin_menu'
                                               or call.data == 'admin_info' or call.data == 'edit_text'
-                                              or call.data == 'green' or call.data == 'red' or call.data == 'edit_img')
+                                              or call.data == 'green' or call.data == 'red' or call.data == 'edit_img'
+                                              or call.data == 'add_case' or call.data == 'delete_case')
 def but0_pressed(call: types.CallbackQuery):
     if call.data == 'admin_sending_messages':
         msg = bot.send_message(call.message.chat.id,
@@ -81,6 +82,11 @@ def but0_pressed(call: types.CallbackQuery):
         conn.commit()
         conn.close()
 
+    if call.data == 'add_case':
+        msg = bot.send_message(call.message.chat.id,
+                               text='Введите название кейса в формате "название|ссылка"')
+        bot.register_next_step_handler(msg, admin_add_case)
+
 
 
 
@@ -93,6 +99,28 @@ def but1_pressed(call: types.CallbackQuery):
                             # reply_markup=keyboards.main_keys)
 
     bot.edit_message_media(media=telebot.types.InputMedia(type='photo', media=functions.get_img(), caption=config.start.format(functions.get_status())), chat_id=call.message.chat.id, message_id=call.message.message_id, reply_markup=keyboards.main_keys)
+
+
+@bot.callback_query_handler(func=lambda call: call.data == "cases")
+def but1_pressed(call: types.CallbackQuery):
+    # if call.message.chat.id == config.thank_you:
+    name = functions.get_cases()
+    link = functions.get_links()
+
+
+    cases_keyboard = types.InlineKeyboardMarkup(row_width=1)
+    for x in range(len(name)):
+        button = types.InlineKeyboardButton(
+            text=name[x],
+            url=link[x]
+        )
+        cases_keyboard.add(button)
+    cases_keyboard.add(InlineKeyboardButton("⬅️", callback_data="go"))
+
+
+
+
+    bot.edit_message_media(media=telebot.types.InputMedia(type='photo', media=functions.get_img(), caption=config.start.format(functions.get_status())), chat_id=call.message.chat.id, message_id=call.message.message_id, reply_markup=cases_keyboard)
 
 
 @bot.callback_query_handler(func=lambda call: call.data == "WhoAmI")
@@ -202,6 +230,26 @@ def admin_edit_img(message):
     bot.send_message(message.chat.id, text='Фото отредактировано', reply_markup=keyboards.delete)
     bot.delete_message(message.chat.id, message.message_id)
     bot.delete_message(message.chat.id, message.message_id - 1)
+
+
+def admin_add_case(message):
+    case = message.text
+    label, link = case.split('|')
+    print(label)
+    print(link)
+    conn = sqlite3.connect('auternous_bot.sqlite')
+    cursor = conn.cursor()
+    row = cursor.execute(f'SELECT * FROM cases WHERE label = "{label}"').fetchall()
+
+    if len(row) == 0:
+        cursor.execute(
+            f'INSERT INTO cases VALUES ("{label}", "{link}")')
+        conn.commit()
+    bot.send_message(message.chat.id, text='Кейс добавлен', reply_markup=keyboards.delete)
+    bot.delete_message(message.chat.id, message.message_id)
+    bot.delete_message(message.chat.id, message.message_id - 1)
+
+
 
 
 if __name__ == '__main__':

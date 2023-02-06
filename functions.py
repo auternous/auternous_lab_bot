@@ -87,6 +87,61 @@ def get_img():
     if row:
         return row[2]
 
+def get_label():
+    conn = sqlite3.connect('auternous_bot.sqlite')
+    cursor = conn.cursor()
+    row = cursor.execute(f'SELECT * FROM cases').fetchone()
+
+
+    if row:
+        return row[0]
+
+def get_link():
+    conn = sqlite3.connect('auternous_bot.sqlite')
+    cursor = conn.cursor()
+    row = cursor.execute(f'SELECT * FROM cases').fetchone()
+
+
+    if row:
+        return row[1]
+
+def get_cases():
+    case_list = []
+    conn = sqlite3.connect('auternous_bot.sqlite')
+    cursor = conn.cursor()
+
+
+    cursor.execute(f'SELECT * FROM cases')
+    row = cursor.fetchall()
+
+    for i in range(len(row)):
+        try:
+            case_list.append(row[i][0])
+
+        #.split("(", ")")
+        except:
+            pass
+
+    return case_list
+
+def get_links():
+    link_list = []
+    conn = sqlite3.connect('auternous_bot.sqlite')
+    cursor = conn.cursor()
+
+
+    cursor.execute(f'SELECT * FROM cases')
+    row = cursor.fetchall()
+
+    for i in range(len(row)):
+        try:
+            link_list.append(row[i][1])
+
+        #.split("(", ")")
+        except:
+            pass
+
+    return link_list
 
 
 

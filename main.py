@@ -87,6 +87,11 @@ def but0_pressed(call: types.CallbackQuery):
                                text='Введите название кейса в формате "название|ссылка"')
         bot.register_next_step_handler(msg, admin_add_case)
 
+    if call.data == 'delete_case':
+        msg = bot.send_message(call.message.chat.id,
+                               text='Введите точное название кейса, который хотите удалить')
+        bot.register_next_step_handler(msg, admin_delete_case)
+
 
 
 
@@ -246,6 +251,17 @@ def admin_add_case(message):
             f'INSERT INTO cases VALUES ("{label}", "{link}")')
         conn.commit()
     bot.send_message(message.chat.id, text='Кейс добавлен', reply_markup=keyboards.delete)
+    bot.delete_message(message.chat.id, message.message_id)
+    bot.delete_message(message.chat.id, message.message_id - 1)
+
+def admin_delete_case(message):
+    case = message.text
+    conn = sqlite3.connect('auternous_bot.sqlite')
+    cursor = conn.cursor()
+    cursor.execute(f'DELETE FROM cases WHERE label = "{case}"')
+    conn.commit()
+    conn.close()
+    bot.send_message(message.chat.id, text='Кейс удалён', reply_markup=keyboards.delete)
     bot.delete_message(message.chat.id, message.message_id)
     bot.delete_message(message.chat.id, message.message_id - 1)
 

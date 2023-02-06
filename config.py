@@ -2,7 +2,7 @@
 
 #base_settings
 TOKEN = '5748458460:AAH6PRWiZsPJdnCYiGhEenIqNOSyLKu4Alk'
-admin = [370028521] #370028521 #settings['settings']['admin']
+admin = 748217427 #370028521 #settings['settings']['admin']
 
 cover = 'me.jpg'
 
@@ -17,10 +17,14 @@ bio = "Меня зовут Марк и я умею писать на Python🐍\
 go_to_dialog = 'Ты можешь задать мне вопрос❔\nПросто напиши сообщение, и я с тобой свяжусь📲'
 start = 'Это бот-визитка Марка, тут можно узнать о его деятельности и задать пару вопросов\nБудь, как дома🏠\n{}'
 thank_you = "спасибо за вопрос📈"
+cases = 'тут представлен список кейсов, с которыми я работал⌨️👨‍💻'
+status_1 = 'Я сейчас свободен 🟢'
+status_0 = 'Я сейчас занят 🔴'
 
 #buttons_label
-button_bio = 'Обо мне🧸'
-button_go_to_dialog = "Задай свой вопрос🫧"
-button_link = "GitHub👽"
+button_bio = 'Обо мне💬'
+button_go_to_dialog = "Задай свой вопрос✉️"
+button_link = "GitHub⚙️"
+button_case = 'Кейсы📝'
 link = 'https://github.com/auternous'
 

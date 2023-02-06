@@ -10,7 +10,7 @@ first_step.add(InlineKeyboardButton("🤍", callback_data="go"))
 main_keys = InlineKeyboardMarkup()
 main_keys.add(InlineKeyboardButton(text=config.button_bio, callback_data="WhoAmI"))
 main_keys.add(InlineKeyboardButton(text=config.button_go_to_dialog, callback_data="Dialog"))
-main_keys.add(InlineKeyboardButton(text='кейсы', callback_data="cases"))
+main_keys.add(InlineKeyboardButton(text=config.button_case, callback_data="cases"))
 main_keys.add(InlineKeyboardButton(text=config.button_link, url=config.link))
 
 go_back = InlineKeyboardMarkup()

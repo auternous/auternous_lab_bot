@@ -28,7 +28,7 @@ def send_welcome(message):
 @bot.message_handler(commands=['admin'])
 def handler_admin(message):
     chat_id = message.chat.id
-    if chat_id in config.admin:
+    if chat_id == config.admin:
         bot.send_message(chat_id, 'Вы перешли в меню админа', reply_markup=keyboards.admin_menu)
 
 
@@ -68,7 +68,7 @@ def but0_pressed(call: types.CallbackQuery):
         conn = sqlite3.connect('auternous_bot.sqlite')
         cursor = conn.cursor()
 
-        cursor.execute(f'UPDATE messages SET status = ? where rowid = 1', ['Я сейчас свободен 🟢'])
+        cursor.execute(f'UPDATE messages SET status = ? where rowid = 1', [config.status_1])
 
         conn.commit()
         conn.close()
@@ -77,7 +77,7 @@ def but0_pressed(call: types.CallbackQuery):
         conn = sqlite3.connect('auternous_bot.sqlite')
         cursor = conn.cursor()
 
-        cursor.execute(f'UPDATE messages SET status = ? where rowid = 1', ['Я сейчас занят 🔴'])
+        cursor.execute(f'UPDATE messages SET status = ? where rowid = 1', [config.status_0])
 
         conn.commit()
         conn.close()
@@ -125,7 +125,7 @@ def but1_pressed(call: types.CallbackQuery):
 
 
 
-    bot.edit_message_media(media=telebot.types.InputMedia(type='photo', media=functions.get_img(), caption=config.start.format(functions.get_status())), chat_id=call.message.chat.id, message_id=call.message.message_id, reply_markup=cases_keyboard)
+    bot.edit_message_media(media=telebot.types.InputMedia(type='photo', media=functions.get_img(), caption=config.cases), chat_id=call.message.chat.id, message_id=call.message.message_id, reply_markup=cases_keyboard)
 
 
 @bot.callback_query_handler(func=lambda call: call.data == "WhoAmI")
@@ -148,7 +148,7 @@ def but3_pressed(call: types.CallbackQuery):
 
 @bot.message_handler()
 def send_poslanie(message: Message):
-    if not (message.chat.id in admin_id):
+    if not message.chat.id == admin_id:
         message_worked = message.text
         message_sender = message.from_user.username
         bot.send_message(admin_id, f"Новое сообщение от @{message_sender}!\n\n{message_worked}",
@@ -157,7 +157,7 @@ def send_poslanie(message: Message):
         bot.send_message(chat_id=message.chat.id, text='Cпасибо за вопрос. Напишу сразу же, как освобожусь',
                          reply_markup=keyboards.delete)
 
-    elif message.chat.id in admin_id:
+    elif message.chat.id == admin_id:
         bot.send_message(chat_id=message.chat.id, text='АДМИН, ты серьёзно?',
                          reply_markup=keyboards.delete)
         bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)

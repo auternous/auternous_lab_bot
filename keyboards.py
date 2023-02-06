@@ -30,5 +30,5 @@ admin_menu.add(
     types.InlineKeyboardButton(text='🟢', callback_data='green'),
     types.InlineKeyboardButton(text='🔴', callback_data='red'))
 admin_menu.add(
-    types.InlineKeyboardButton(text='Информаци', callback_data='admin_info'),
+    types.InlineKeyboardButton(text='INFO', callback_data='admin_info'),
     types.InlineKeyboardButton(text='Выйти', callback_data='exit_admin_menu'))

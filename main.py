@@ -21,7 +21,7 @@ def send_welcome(message):
     message_sender = message.from_user.username
     functions.first_join(user_id=message.chat.id, name=message.from_user.username)
     bot.send_photo(chat_id=message.chat.id, photo=functions.get_img(),
-                   caption=f"Привет, рад тебя видеть {message_sender}\nНажимай на 🤍 и давай познакомимся",
+                   caption=config.hello.format(message_sender),
                    reply_markup=keyboards.first_step)
 
 

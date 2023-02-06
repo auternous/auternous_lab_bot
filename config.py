@@ -2,7 +2,7 @@
 
 #base_settings
 TOKEN = '5748458460:AAH6PRWiZsPJdnCYiGhEenIqNOSyLKu4Alk'
-admin = 748217427 #370028521 #settings['settings']['admin']
+admin = 370028521 #370028521 #settings['settings']['admin']
 
 cover = 'me.jpg'
 

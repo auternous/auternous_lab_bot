@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="107a5f19-0573-46e4-b350-addcec737919" name="Changes" comment="you can delete cases">
+    <list default="true" id="107a5f19-0573-46e4-b350-addcec737919" name="Changes" comment="cosmetic">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auternous_bot.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/auternous_bot.sqlite" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/keyboards.py" beforeDir="false" afterPath="$PROJECT_DIR$/keyboards.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,9 +126,9 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
-        <item itemvalue="Python.keyboards" />
-        <item itemvalue="Python.config" />
         <item itemvalue="Python.functions" />
+        <item itemvalue="Python.config" />
+        <item itemvalue="Python.keyboards" />
       </list>
     </recent_temporary>
   </component>
@@ -192,7 +190,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675703724907</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="cosmetic">
+      <created>1675706899502</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1675706899502</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -203,6 +208,7 @@
     <MESSAGE value="now you can change photo" />
     <MESSAGE value="you can add cases" />
     <MESSAGE value="you can delete cases" />
-    <option name="LAST_COMMIT_MESSAGE" value="you can delete cases" />
+    <MESSAGE value="cosmetic" />
+    <option name="LAST_COMMIT_MESSAGE" value="cosmetic" />
   </component>
 </project>

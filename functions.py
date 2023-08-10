@@ -11,8 +11,8 @@ class Admin_sending_messages:
         self.user_id = user_id
         self.text = None
 def first_join(user_id, name):
-    img = open('me.jpg', 'rb')
-    conn = sqlite3.connect('auternous_bot.sqlite')
+    img = open('/home/mark/auternous_lab_bot/me.jpg', 'rb')
+    conn = sqlite3.connect('/home/mark/auternous_lab_bot/auternous_bot.sqlite')
     cursor = conn.cursor()
     row = cursor.execute(f'SELECT * FROM users WHERE user_id = "{user_id}"').fetchall()
 
@@ -21,7 +21,7 @@ def first_join(user_id, name):
             f'INSERT INTO users VALUES ("{user_id}", "{name}", "{datetime.datetime.now()}")')
         conn.commit()
 
-    conn = sqlite3.connect('auternous_bot.sqlite')
+    conn = sqlite3.connect('/home/mark/auternous_lab_bot/auternous_bot.sqlite')
     cursor = conn.cursor()
     row = cursor.execute(f'SELECT * FROM messages WHERE bio = "{config.bio}"').fetchall()
 
@@ -33,7 +33,7 @@ def first_join(user_id, name):
 
 
 def admin_info():
-    conn = sqlite3.connect('auternous_bot.sqlite')
+    conn = sqlite3.connect('/home/mark/auternous_lab_bot/auternous_bot.sqlite')
     cursor = conn.cursor()
     row = cursor.execute(f'SELECT * FROM users').fetchone()
 
@@ -61,7 +61,7 @@ def admin_info():
 
 
 def get_bio():
-    conn = sqlite3.connect('auternous_bot.sqlite')
+    conn = sqlite3.connect('/home/mark/auternous_lab_bot/auternous_bot.sqlite')
     cursor = conn.cursor()
     row = cursor.execute(f'SELECT * FROM messages').fetchone()
 
@@ -71,7 +71,7 @@ def get_bio():
 
 
 def get_status():
-    conn = sqlite3.connect('auternous_bot.sqlite')
+    conn = sqlite3.connect('/home/mark/auternous_lab_bot/auternous_bot.sqlite')
     cursor = conn.cursor()
     row = cursor.execute(f'SELECT * FROM messages').fetchone()
 
@@ -79,7 +79,7 @@ def get_status():
         return row[1]
 
 def get_img():
-    conn = sqlite3.connect('auternous_bot.sqlite')
+    conn = sqlite3.connect('/home/mark/auternous_lab_bot/auternous_bot.sqlite')
     cursor = conn.cursor()
     row = cursor.execute(f'SELECT * FROM messages').fetchone()
 
@@ -88,7 +88,7 @@ def get_img():
         return row[2]
 
 def get_label():
-    conn = sqlite3.connect('auternous_bot.sqlite')
+    conn = sqlite3.connect('/home/mark/auternous_lab_bot/auternous_bot.sqlite')
     cursor = conn.cursor()
     row = cursor.execute(f'SELECT * FROM cases').fetchone()
 
@@ -97,7 +97,7 @@ def get_label():
         return row[0]
 
 def get_link():
-    conn = sqlite3.connect('auternous_bot.sqlite')
+    conn = sqlite3.connect('/home/mark/auternous_lab_bot/auternous_bot.sqlite')
     cursor = conn.cursor()
     row = cursor.execute(f'SELECT * FROM cases').fetchone()
 
@@ -107,7 +107,7 @@ def get_link():
 
 def get_cases():
     case_list = []
-    conn = sqlite3.connect('auternous_bot.sqlite')
+    conn = sqlite3.connect('/home/mark/auternous_lab_bot/auternous_bot.sqlite')
     cursor = conn.cursor()
 
 
@@ -126,7 +126,7 @@ def get_cases():
 
 def get_links():
     link_list = []
-    conn = sqlite3.connect('auternous_bot.sqlite')
+    conn = sqlite3.connect('/home/mark/auternous_lab_bot/auternous_bot.sqlite')
     cursor = conn.cursor()
 
 

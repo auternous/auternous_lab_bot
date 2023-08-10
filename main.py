@@ -65,7 +65,7 @@ def but0_pressed(call: types.CallbackQuery):
 
 
     if call.data == 'green':
-        conn = sqlite3.connect('auternous_bot.sqlite')
+        conn = sqlite3.connect('/home/mark/auternous_lab_bot/auternous_bot.sqlite')
         cursor = conn.cursor()
 
         cursor.execute(f'UPDATE messages SET status = ? where rowid = 1', [config.status_1])
@@ -74,7 +74,7 @@ def but0_pressed(call: types.CallbackQuery):
         conn.close()
 
     if call.data == 'red':
-        conn = sqlite3.connect('auternous_bot.sqlite')
+        conn = sqlite3.connect('/home/mark/auternous_lab_bot/auternous_bot.sqlite')
         cursor = conn.cursor()
 
         cursor.execute(f'UPDATE messages SET status = ? where rowid = 1', [config.status_0])
@@ -183,7 +183,7 @@ def admin_sending_messages(message):
 
 
 def admin_sending_messages_2(message):
-    conn = sqlite3.connect('auternous_bot.sqlite')
+    conn = sqlite3.connect('/home/mark/auternous_lab_bot/auternous_bot.sqlite')
     cursor = conn.cursor()
     dict = admin_sending_messages_dict[message.chat.id]
     if message.text == 'ПОДТВЕРДИТЬ':
@@ -208,7 +208,7 @@ def admin_sending_messages_2(message):
 
 def admin_edit_bio(message):
     new_bio = message.text
-    conn = sqlite3.connect('auternous_bot.sqlite')
+    conn = sqlite3.connect('/home/mark/auternous_lab_bot/auternous_bot.sqlite')
     cursor = conn.cursor()
 
     cursor.execute(f'UPDATE messages SET bio = ? where rowid = 1', [new_bio])
@@ -225,7 +225,7 @@ def admin_edit_img(message):
     # Достаём картинку
     photo_file = bot.get_file(photo_id)  # <class 'telebot.types.File'>
     photo_bytes = bot.download_file(photo_file.file_path)  # <class 'bytes'>
-    conn = sqlite3.connect('auternous_bot.sqlite')
+    conn = sqlite3.connect('/home/mark/auternous_lab_bot/auternous_bot.sqlite')
     cursor = conn.cursor()
 
     cursor.execute(f'UPDATE messages SET img = ? where rowid = 1', [photo_bytes])
@@ -242,7 +242,7 @@ def admin_add_case(message):
     label, link = case.split('|')
     print(label)
     print(link)
-    conn = sqlite3.connect('auternous_bot.sqlite')
+    conn = sqlite3.connect('/home/mark/auternous_lab_bot/auternous_bot.sqlite')
     cursor = conn.cursor()
     row = cursor.execute(f'SELECT * FROM cases WHERE label = "{label}"').fetchall()
 
@@ -256,7 +256,7 @@ def admin_add_case(message):
 
 def admin_delete_case(message):
     case = message.text
-    conn = sqlite3.connect('auternous_bot.sqlite')
+    conn = sqlite3.connect('/home/mark/auternous_lab_bot/auternous_bot.sqlite')
     cursor = conn.cursor()
     cursor.execute(f'DELETE FROM cases WHERE label = "{case}"')
     conn.commit()
